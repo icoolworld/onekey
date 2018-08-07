@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+    centos_ide:
+      image: ainow/develop
+      volumes:
+       - /data:/data
+      restart: always
+      ports:
+       - "2222:22"
+      shm_size: 2048M
+      networks:
+       - default
+       - mysql_default
+       - redis_default
+       - php_php7
+      external_links:
+        - mysql:mysql_server
+        - redis_redis_1:redis_server   
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+      command:
+        ["/usr/sbin/sshd","-D"]
+          
+networks:
+  mysql_default:
+    external: true
+  redis_default:
+    external: true
+  php_php7:
+    external: true

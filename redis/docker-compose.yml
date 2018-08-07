@@ -1,0 +1,20 @@
+version: "3"
+services:
+    redis:
+      image: redis:4.0.9-alpine
+      volumes:
+       - /data/webserver/redis/data:/data
+       - /data/webserver/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      
+      restart: always
+      ports:
+       - "6379:6379"
+      shm_size: 2048M
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+      command: 
+        ["redis-server","/usr/local/etc/redis/redis.conf"]
+        

@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+    php7:
+      image: php7.1_amqp_bcmath
+      volumes:
+       - /data/www/:/var/www/html
+       - /data/webserver/php/conf/php/php.ini:/usr/local/etc/php/php.ini
+       - /data/webserver/php/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf
+       - /data/webserver/php/conf/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      restart: always
+      ports:
+       - "9000:9000"
+      shm_size: 2048M
+      networks:
+       - default
+       - php7
+       - mysql_default
+       - redis_default
+      external_links:
+        - mysql:mysql_server
+        - redis_redis_1:redis_server   
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+          
+      command:
+        ["php-fpm"]
+          
+      
+networks:
+  mysql_default:
+    external: true
+  redis_default:
+    external: true
+  php7:

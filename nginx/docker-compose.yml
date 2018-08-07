@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+    nginx:
+      image: ainow/nginx
+      volumes:
+       - /data/www:/usr/share/nginx/html
+       - /data/webserver/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+       - /data/webserver/nginx/conf/conf.d:/etc/nginx/conf.d 
+      restart: always
+      ports:
+       - "80:80"
+      shm_size: 512M
+      networks:
+       - default
+       - frontend
+       - mysql_default
+       - redis_default
+       - php_php7
+      deploy:
+        resources:
+          limits:
+            cpus: '0.50'
+            memory: 500M
+          reservations:
+            cpus: '0.25'
+            memory: 20M
+      external_links:
+        - mysql:mysql_server
+        - redis_redis_1:redis_server   
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+          
+networks:
+  mysql_default:
+    external: true
+  redis_default:
+    external: true
+  php_php7:
+    external: true
+  frontend:

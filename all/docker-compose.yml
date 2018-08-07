@@ -1,0 +1,150 @@
+version: "3"
+
+services:
+    nginx:
+      image: ainow/nginx
+      volumes:
+       - /data/www:/usr/share/nginx/html
+       - /data/webserver/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+       - /data/webserver/nginx/conf/conf.d:/etc/nginx/conf.d 
+      restart: always
+      ports:
+       - "80:80"
+      shm_size: 512M
+      networks:
+       - default
+       - frontend
+      external_links:
+        - mysql:mysql_server
+        - redis:redis_server   
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+          
+    php7:
+      image: ainow/php7.1.17
+      volumes:
+       - /data/www:/var/www/html
+       - /data/webserver/php/conf/php/php.ini:/usr/local/etc/php/php.ini
+       - /data/webserver/php/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf
+       - /data/webserver/php/conf/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      restart: always
+      ports:
+       - "9000:9000"
+      shm_size: 1024M
+      networks:
+       - default
+       - php7
+      external_links:
+        - mysql:mysql_server
+        - redis:redis_server   
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+      command: 
+        ["php-fpm"]
+      
+    mysql:
+      image: mysql:5.7.22
+      volumes:
+       - /data/webserver/mysql/data:/var/lib/mysql
+       - /data/webserver/mysql/conf:/etc/mysql/conf.d
+       
+      environment:
+       - MYSQL_ROOT_PASSWORD=123456
+      
+      restart: always
+      ports:
+       - "3306:3306"
+      shm_size: 2048M
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+
+    redis:
+      image: redis:4.0.9-alpine
+      volumes:
+       - /data/webserver/redis/data:/data
+       - /data/webserver/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      
+      restart: always
+      ports:
+       - "6379:6379"
+      shm_size: 512M
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+      command: 
+        #["redis-server","/usr/local/etc/redis/redis.conf"]
+        ["redis-server"]
+
+    node:
+      image: ainow/node-yarn
+      volumes:
+       - /data/www:/data/www
+      restart: always
+      shm_size: 512M
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+      command: 
+        ["init"]
+        
+    develop:
+      image: ainow/develop
+      volumes:
+       - /data:/data
+       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      restart: always
+      ports:
+       - "2222:22"
+      shm_size: 4096M
+      networks:
+       - default
+      external_links:
+        - mysql:mysql_server
+        - redis:redis_server   
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+      working_dir: /data
+      privileged: true
+      command:
+        ["init"]
+
+    rabbitmq:
+      image: rabbitmq:3.7-management-alpine  
+      volumes:
+       - /data/webserver/rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@rabbitmq_host
+       - /data/webserver/rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      restart: always
+      ports:
+       - "5672:5672"
+       - "8080:15672"
+      shm_size: 2048M
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+      #environment:
+      # - RABBITMQ_DEFAULT_USER=admin 
+      # - RABBITMQ_DEFAULT_PASS=admin
+      hostname: rabbitmq_host
+      privileged: true
+          
+networks:
+  frontend:
+  php7:

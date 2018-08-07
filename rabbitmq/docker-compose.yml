@@ -1,0 +1,22 @@
+version: "3"
+services:
+    rabbitmq:
+      image: rabbitmq:3.7-management-alpine  
+      volumes:
+       - /data/webserver/rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@rabbitmq_host
+       - /data/webserver/rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      restart: always
+      ports:
+       - "5672:5672"
+       - "8080:15672"
+      shm_size: 2048M
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+      #environment:
+      # - RABBITMQ_DEFAULT_USER=admin 
+      # - RABBITMQ_DEFAULT_PASS=admin
+      hostname: rabbitmq_host
+      privileged: true
