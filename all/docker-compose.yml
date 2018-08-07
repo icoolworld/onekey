@@ -83,8 +83,7 @@ services:
           soft: 65535
           hard: 65535
       command: 
-        #["redis-server","/usr/local/etc/redis/redis.conf"]
-        ["redis-server"]
+        ["redis-server","/usr/local/etc/redis/redis.conf"]
 
     node:
       image: ainow/node-yarn
