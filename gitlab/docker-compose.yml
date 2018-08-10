@@ -1,0 +1,29 @@
+version: "3"
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    ports:
+      - "2200:22"
+      - "8000:80"
+      - "4430:443"
+    volumes:
+      - /data/webserver/gitlab/data:/var/opt/gitlab
+      - /data/webserver/gitlab/logs:/var/log/gitlab
+      - /data/webserver/gitlab/conf:/etc/gitlab
+    shm_size: 4G
+    restart: always
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        #external_url 'http://gitlab.example.com:9090'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2200
+  gitlab-runner:
+    restart: always
+    image: gitlab/gitlab-runner:alpine
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/webserver/gitlab-runner/conf:/etc/gitlab-runner:Z
+    deploy:
+      mode: replicated
+      replicas: 4
+    shm_size: 1G
+    restart: always
