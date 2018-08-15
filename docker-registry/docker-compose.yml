@@ -1,0 +1,15 @@
+version: "3"
+services:
+  gitlab:
+    image: registry
+    ports:
+      - "5000:5000"
+      #- "4433:443"
+    volumes:
+      - /data/webserver/docker-registry/data:/var/lib/registry
+    shm_size: 4G
+    restart: always
+    #environment:
+    #  - REGISTRY_HTTP_ADDR=0.0.0.0:443 
+    #  - REGISTRY_HTTP_TLS_CERTIFICATE=/data/webserver/docker-registry/conf/certs/domain.crt
+    #  - REGISTRY_HTTP_TLS_KEY=/data/webserver/docker-registry/conf/certs/domain.key

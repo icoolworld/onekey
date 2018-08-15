@@ -1,0 +1,34 @@
+concurrent = 1
+check_interval = 0
+
+[[runners]]
+  name = "docker-runner"
+  url = "http://192.168.50.128:8000"
+  clone_url = "http://192.168.50.128:8000"
+  token = "e3f1720c20ed8e4fb9a4c587b34026"
+  executor = "docker"
+  [runners.docker]
+    tls_verify = false
+    image = "alpine:latest"
+    privileged = true
+    disable_cache = false
+    pull_policy = "if-not-present"
+    volumes = ["/cache"]
+    shm_size = 0
+  [runners.cache]
+
+[[runners]]
+  name = "docker-runner"
+  url = "http://192.168.50.128:8000"
+  clone_url = "http://192.168.50.128:8000"
+  token = "79b55133b23a762ae494d3be97cf5a"
+  executor = "docker"
+  [runners.docker]
+    tls_verify = false
+    image = "alpine:latest"
+    privileged = true
+    pull_policy = "if-not-present"
+    disable_cache = false
+    volumes = ["/cache"]
+    shm_size = 0
+  [runners.cache]

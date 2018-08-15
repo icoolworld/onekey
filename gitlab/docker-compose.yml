@@ -14,8 +14,9 @@ services:
     restart: always
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        #external_url 'http://gitlab.example.com:9090'
+        #external_url 'http://192.168.50.128:8000'
         gitlab_rails['gitlab_shell_ssh_port'] = 2200
+        gitlab_rails['gitlab_ssh_host'] = '192.168.50.128'
   gitlab-runner:
     restart: always
     image: gitlab/gitlab-runner:alpine
