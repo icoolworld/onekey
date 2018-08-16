@@ -1769,9 +1769,3 @@
 #   }
 # }
 
-gitlab_rails['registry_enabled'] = true
-gitlab_rails['registry_host'] = "192.168.50.128"
-gitlab_rails['registry_port'] = "5000"
-gitlab_rails['registry_api_url'] = "http://192.168.50.128:5000"
-gitlab_rails['registry_path'] = "/var/opt/gitlab/gitlab-rails/shared/registry"
-gitlab_rails['registry_issuer'] = "omnibus-gitlab-issuer"
