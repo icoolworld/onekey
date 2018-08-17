@@ -6,10 +6,10 @@ cd /data/webserver/docker-registry/
 
 # ssl certs for docker registry,use self-signed certificate
 
-host='192.168.50.128'
+host='registry.17173.com'
 
 mkdir -p conf/certs && cd conf/
-openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 -out certs/domain.crt -subj "/C=CN/ST=Beijing/L=Beijing/O=website Inc./OU=Web Security/CN=$host"
+openssl req -newkey rsa:4096 -nodes -sha256 -days 3650 -keyout certs/registry.key -x509 -out certs/registry.crt -subj "/C=CN/ST=Beijing/L=Beijing/O=website Inc./OU=Web Security/CN=$host"
 cd ../
 
 # http support

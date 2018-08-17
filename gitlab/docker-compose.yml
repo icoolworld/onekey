@@ -17,15 +17,14 @@ services:
         #external_url 'http://192.168.50.128:8000'
         gitlab_rails['gitlab_shell_ssh_port'] = 2200
         gitlab_rails['gitlab_ssh_host'] = '192.168.50.128'
-
         gitlab_rails['registry_enabled'] = true
-        gitlab_rails['registry_host'] = "192.168.50.128"
+        gitlab_rails['registry_host'] = "registry.17173.com"
         gitlab_rails['registry_port'] = "5000"
         gitlab_rails['registry_api_url'] = "https://192.168.50.128:5000"
-        gitlab_rails['registry_path'] = "/var/lib/registry"
+        #gitlab_rails['registry_path'] = "/var/lib/registry"
         gitlab_rails['registry_issuer'] = "gitlab-issuer"
-        gitlab_rails['registry_key'] = "/data/webserver/docker-registry/conf/certs/domain.key"
-        #registry_external_url 'http://192.168.50.128:4567'
+        #gitlab_rails['registry_key'] = "/etc/conf/trusted-certs/registry.17173.com.key"
+        #registry_external_url 'http://192.168.50.128:5000'
   gitlab-runner:
     restart: always
     image: gitlab/gitlab-runner:alpine
