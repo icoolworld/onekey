@@ -1,4 +1,4 @@
-concurrent = 1
+concurrent = 10
 check_interval = 0
 
 [[runners]]
@@ -42,9 +42,9 @@ check_interval = 0
   [runners.docker]
     tls_verify = false
     image = "alpine:latest"
-    privileged = false
+    privileged = true
     disable_cache = false
-    volumes = ["/cache"]
+    volumes = ["/cache","/var/run/docker.sock:/var/run/docker.sock","/etc/docker/daemon.json:/etc/docker/daemon.json"]
     shm_size = 0
     pull_policy = "if-not-present"
   [runners.cache]

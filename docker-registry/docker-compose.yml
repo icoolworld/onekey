@@ -8,14 +8,14 @@ services:
       environment:
           - REGISTRY_LOG_LEVEL=info
           - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/var/lib/registry
-          - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.crt
-          - REGISTRY_HTTP_TLS_KEY=/certs/registry.key
-          - REGISTRY_AUTH=token
-          - REGISTRY_AUTH_TOKEN_REALM=https://gitlab.17173.com/jwt/auth
-          - REGISTRY_AUTH_TOKEN_SERVICE=container_registry
-          - REGISTRY_AUTH_TOKEN_ISSUER=gitlab-issuer
-          - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/registry.crt
-          - REGISTRY_STORAGE_DELETE_ENABLED=true
+          #- REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.17173.com.crt
+          #- REGISTRY_HTTP_TLS_KEY=/certs/registry.17173.com.key
+          #- REGISTRY_AUTH=token
+          #- REGISTRY_AUTH_TOKEN_REALM=http://192.168.50.128:8000/jwt/auth
+          #- REGISTRY_AUTH_TOKEN_SERVICE=container_registry
+          #- REGISTRY_AUTH_TOKEN_ISSUER=gitlab-issuer
+          #- REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/registry.17173.com.crt
+          #- REGISTRY_STORAGE_DELETE_ENABLED=true
       volumes:
           - /data/webserver/docker-registry/data:/var/lib/registry
           - /data/webserver/docker-registry/conf/certs:/certs

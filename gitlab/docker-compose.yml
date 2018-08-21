@@ -5,25 +5,27 @@ services:
     ports:
       - "2200:22"
       - "8000:80"
+      - "8001:80"
       - "4430:443"
     volumes:
       - /data/webserver/gitlab/data:/var/opt/gitlab
       - /data/webserver/gitlab/logs:/var/log/gitlab
       - /data/webserver/gitlab/conf:/etc/gitlab
+      - /data/webserver/gitlab/conf/certs:/certs
     shm_size: 4G
     restart: always
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        #external_url 'http://192.168.50.128:8000'
+        external_url 'http://gitlab'
         gitlab_rails['gitlab_shell_ssh_port'] = 2200
         gitlab_rails['gitlab_ssh_host'] = '192.168.50.128'
         gitlab_rails['registry_enabled'] = true
-        gitlab_rails['registry_host'] = "registry.17173.com"
+        gitlab_rails['registry_host'] = "192.168.50.128"
         gitlab_rails['registry_port'] = "5000"
-        gitlab_rails['registry_api_url'] = "https://192.168.50.128:5000"
+        gitlab_rails['registry_api_url'] = "http://192.168.50.128:5000"
         #gitlab_rails['registry_path'] = "/var/lib/registry"
         gitlab_rails['registry_issuer'] = "gitlab-issuer"
-        #gitlab_rails['registry_key'] = "/etc/conf/trusted-certs/registry.17173.com.key"
+        #gitlab_rails['registry_key'] = "/certs/registry.17173.com.key"
         #registry_external_url 'http://192.168.50.128:5000'
   gitlab-runner:
     restart: always
